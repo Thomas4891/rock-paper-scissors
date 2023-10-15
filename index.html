@@ -51,7 +51,8 @@
             const playerChoice = getPlayerChoice();
             const round = playRound(playerChoice, getComputerChoice());
             console.log(round);
-            return round.includes("win!") ? 1 : round.includes("lose!") ? 2 : 3;
+            return round.includes("win!") ? 1 : round.includes("lose!") ? 2 : 
+                round.includes("It's a tie!") ? 3 : 4;
         }
         
         function printWinLoseTie(wins, loses, ties) {
@@ -63,7 +64,7 @@
                 console.log("You lose! With " + wins + " wins and " + loses + " loses and " + ties + " ties.");
             }
         }
-        
+
         const numOfRounds = 5;
         let result = 0;
         let wins = 0;
@@ -80,6 +81,8 @@
                 result = 0;
             } else if (result === 3) {
                 ++ties;
+                result = 0;
+            } else if (result === 4) {
                 result = 0;
             }
         }
