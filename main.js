@@ -30,27 +30,41 @@ function playRound(playerSelection, computerSelection) {
       return 'Incorrect choice';
   }
 }
+function styleResults(result) {
+  result.style.backgroundColor = 'rgb(48, 79, 79)';
+  result.style.padding = '20px';
+  result.style.borderRadius = '10px';
+  result.style.margin = '20px';
+  result.style.width = '450px';
+  result.style.textAlign = 'center';
 
+}
 function printScores(round) {
+  styleResults(winLose);
   winLose.textContent = round;
   container.appendChild(winLose);
 
+  styleResults(playerScore);
   playerScore.textContent = `Player's score: ${playerWins}`;
   container.appendChild(playerScore);
-  
+
+  styleResults(cpuScore);
   cpuScore.textContent = `Computer's score: ${cpuWins}`;
   container.appendChild(cpuScore);
-  
+
+  styleResults(tieScore);
   tieScore.textContent = `Tie games: ${ties}`;
   container.appendChild(tieScore);
 }
 
 function checkNumWins() {
   if (playerWins === numOfRounds) {
+    styleResults(winner);
     winner.textContent = `Player wins best of ${numOfRounds}`;
     container.appendChild(winner);
     choice.removeEventListener('click', choiceHandler);
   } else if (cpuWins === numOfRounds) {
+    styleResults(winner);
     winner.textContent = `Computer wins best of ${numOfRounds}`;
     container.appendChild(winner);
     choice.removeEventListener('click', choiceHandler);
@@ -61,21 +75,7 @@ function game(playerChoice) {
   const round = playRound(playerChoice, getComputerChoice());
   printScores(round);
   checkNumWins();
-  
 }
-
-const choice = document.querySelector('#choice');
-const container = document.querySelector('#container');
-const winLose = document.createElement('p');
-const playerScore = document.createElement('p');
-const cpuScore = document.createElement('p');
-const tieScore = document.createElement('p');
-const winner = document.createElement('p');
-const numOfRounds = 5;
-
-let playerWins = 0;
-let cpuWins = 0;
-let ties = 0;
 
 function choiceHandler(e) {
   const target = e.target;
@@ -93,6 +93,19 @@ function choiceHandler(e) {
       return 'error';
   }
 }
+
+const choice = document.querySelector('#choice');
+const container = document.querySelector('#container');
+const winLose = document.createElement('p');
+const playerScore = document.createElement('p');
+const cpuScore = document.createElement('p');
+const tieScore = document.createElement('p');
+const winner = document.createElement('p');
+const numOfRounds = 5;
+
+let playerWins = 0;
+let cpuWins = 0;
+let ties = 0;
 
 choice.addEventListener('click', choiceHandler);
 
