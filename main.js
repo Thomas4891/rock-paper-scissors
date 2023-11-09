@@ -34,39 +34,52 @@ function styleResults(result) {
   result.style.backgroundColor = 'rgb(48, 79, 79)';
   result.style.padding = '20px';
   result.style.borderRadius = '10px';
-  result.style.margin = '20px';
-  result.style.width = '450px';
-  result.style.textAlign = 'center';
+  result.style.marginBottom = '30px';
+  result.style.width = '235px';
+  result.style.textAlign = 'left';
+  result.style.boxShadow = '15px 15px 10px 10px rgba(0, 0, 0, 0.5)';
+  
 
 }
+
+function styleWinLose(winLose) {
+  winLose.style.backgroundColor = 'rgb(48, 79, 79)';
+  winLose.style.padding = '20px';
+  winLose.style.borderRadius = '10px';
+  winLose.style.marginBottom = '30px';
+  winLose.style.textAlign = 'center';
+  winLose.style.boxShadow = '15px 15px 10px 10px rgba(0, 0, 0, 0.5)';
+}
+
 function printScores(round) {
-  styleResults(winLose);
+  container.appendChild(resultsDiv);
+  styleWinLose(winLose);
   winLose.textContent = round;
-  container.appendChild(winLose);
+  resultsDiv.appendChild(winLose);
 
   styleResults(playerScore);
   playerScore.textContent = `Player's score: ${playerWins}`;
-  container.appendChild(playerScore);
+  resultsDiv.appendChild(playerScore);
 
   styleResults(cpuScore);
   cpuScore.textContent = `Computer's score: ${cpuWins}`;
-  container.appendChild(cpuScore);
+  resultsDiv.appendChild(cpuScore);
 
   styleResults(tieScore);
   tieScore.textContent = `Tie games: ${ties}`;
-  container.appendChild(tieScore);
+  resultsDiv.appendChild(tieScore);
 }
 
 function checkNumWins() {
   if (playerWins === numOfRounds) {
     styleResults(winner);
     winner.textContent = `Player wins best of ${numOfRounds}`;
-    container.appendChild(winner);
+    resultsDiv.appendChild(winner);
     choice.removeEventListener('click', choiceHandler);
   } else if (cpuWins === numOfRounds) {
     styleResults(winner);
     winner.textContent = `Computer wins best of ${numOfRounds}`;
-    container.appendChild(winner);
+    resultsDiv.appendChild(winner);
     choice.removeEventListener('click', choiceHandler);
   }
 }
@@ -101,6 +114,11 @@ const playerScore = document.createElement('p');
 const cpuScore = document.createElement('p');
 const tieScore = document.createElement('p');
 const winner = document.createElement('p');
+const resultsDiv = document.createElement('div');
+resultsDiv.style.display = 'flex';
+resultsDiv.style.flexDirection = 'column';
+resultsDiv.style.alignItems = 'center';
+
 const numOfRounds = 5;
 
 let playerWins = 0;
