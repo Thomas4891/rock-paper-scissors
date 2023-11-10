@@ -27,7 +27,7 @@ function playRound(playerSelection, computerSelection) {
       playerWins += 1;
       return `You win! Player\'s: ${playerSelection} beats Computer\'s: ${computerSelection}.`;
     default:
-      return 'Incorrect choice';
+      console.log('playRound Error');
   }
 }
 function styleResults(result) {
@@ -38,8 +38,6 @@ function styleResults(result) {
   result.style.width = '235px';
   result.style.textAlign = 'left';
   result.style.boxShadow = '15px 15px 10px 10px rgba(0, 0, 0, 0.5)';
-  
-
 }
 
 function styleWinLose(winLose) {
@@ -70,17 +68,65 @@ function printScores(round) {
   resultsDiv.appendChild(tieScore);
 }
 
+function styleRestartModal() {
+  restartModal.style.position = 'fixed';
+  restartModal.style.width = '100%';
+  restartModal.style.height = '100%';
+  restartModal.style.display = 'flex';
+  restartModal.style.justifyContent = 'center';
+  restartModal.style.alignItems = 'center';
+  restartModal.style.backgroundColor = 'rgba(0, 0, 0, 0.5';
+}
+
+function styleRestartModalContent() {
+  restartModalContent.style.backgroundColor = 'rgb(48, 79, 79)';
+  restartModalContent.style.padding = '30px';
+  restartModalContent.style.borderRadius = '10px';
+  restartModalContent.style.boxShadow =
+    '15px 15px 10px 10px rgba(0, 0, 0, 0.5)';
+  restartModalContent.style.display = 'flex';
+  restartModalContent.style.flexDirection = 'column';
+  restartModalContent.style.alignItems = 'center';
+}
+
+function styleRestartBtn() {
+  restartBtn.style.width = '100px';
+  restartBtn.style.height = '100px';
+  restartBtn.style.borderRadius = '50%';
+  restartBtn.style.borderStyle = 'none';
+  restartBtn.style.boxShadow = '15px 15px 10px 10px rgba(0, 0, 0, 0.5)';
+  restartBtn.style.fontSize = '90%';
+  restartBtn.style.fontWeight = 'bolder';
+}
+
+function endGame(winner, loser, winnerScore, loserScore) {
+  document.body.appendChild(restartModal);
+  styleRestartModal();
+  restartModal.appendChild(restartModalContent);
+  styleRestartModalContent();
+  restartPara.textContent = `${winner} beats ${loser} ${winnerScore} to ${loserScore}!`;
+  restartPara.style.padding = '0 0 20px 0';
+  restartBtn.textContent = 'Restart';
+  styleRestartBtn();
+  restartModalContent.append(restartPara, restartBtn);
+
+  choice.removeEventListener('click', choiceHandler);
+  restartBtn.addEventListener('click', () => {
+    cpuWins = 0;
+    playerWins = 0;
+    ties = 0;
+    printScores('So your going to try again.');
+    restartModalContent.remove(restartBtn, restartPara, restartModalContent);
+    document.body.removeChild(restartModal);
+    choice.addEventListener('click', choiceHandler);
+  });
+}
+
 function checkNumWins() {
   if (playerWins === numOfRounds) {
-    styleResults(winner);
-    winner.textContent = `Player wins best of ${numOfRounds}`;
-    resultsDiv.appendChild(winner);
-    choice.removeEventListener('click', choiceHandler);
+    endGame('Player', 'Computer', playerWins, cpuWins);
   } else if (cpuWins === numOfRounds) {
-    styleResults(winner);
-    winner.textContent = `Computer wins best of ${numOfRounds}`;
-    resultsDiv.appendChild(winner);
-    choice.removeEventListener('click', choiceHandler);
+    endGame('Computer', 'Player', cpuWins, playerWins);
   }
 }
 
@@ -103,7 +149,7 @@ function choiceHandler(e) {
       game(target.id);
       break;
     default:
-      return 'error';
+      console.log('choiceHandler Error');
   }
 }
 
@@ -115,6 +161,12 @@ const cpuScore = document.createElement('p');
 const tieScore = document.createElement('p');
 const winner = document.createElement('p');
 const resultsDiv = document.createElement('div');
+
+const restartModal = document.createElement('div');
+const restartModalContent = document.createElement('div');
+const restartPara = document.createElement('p');
+const restartBtn = document.createElement('button');
+
 resultsDiv.style.display = 'flex';
 resultsDiv.style.flexDirection = 'column';
 resultsDiv.style.alignItems = 'center';
@@ -126,4 +178,3 @@ let cpuWins = 0;
 let ties = 0;
 
 choice.addEventListener('click', choiceHandler);
-
